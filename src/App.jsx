@@ -3,31 +3,50 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
-
+import { 
+  Button, 
+  Card, 
+  Navbar, 
+  CrownIcon, 
+  LogoHmik, 
+  SearchIcon 
+} from 'hmik-project-storybook'
+import 'hmik-project-storybook/dist/hmik-project-storybook.css'
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <Navbar />
+
+      <section id="center" style={{ marginTop: '2rem' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <h2>Contoh Penggunaan Icon</h2>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <CrownIcon width={50} height={50} />
+            <LogoHmik width={50} height={50} />
+            <SearchIcon width={50} height={50} />
+          </div>
         </div>
+
+        <div style={{ marginBottom: '2rem' }}>
+          <h2>Contoh Penggunaan Card</h2>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Card 
+              title="Card dari Library" 
+              description="Ini adalah komponen Card yang diambil dari hmik-project-storybook"
+              buttonText="Klik Saya"
+              onClick={() => alert('Card diklik!')}
+            />
+          </div>
+        </div>
+
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <h2>Contoh Penggunaan Button</h2>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
+        <Button variant="primary" onClick={() => setCount((count) => count + 1)}>
           Count is {count}
-        </button>
+        </Button>
       </section>
 
       <div className="ticks"></div>

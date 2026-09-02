@@ -1,141 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-import { 
-  Button, 
-  Card, 
-  Navbar, 
-  CrownIcon, 
-  LogoHmik, 
-  SearchIcon 
-} from 'hmik-project-storybook'
-import 'hmik-project-storybook/dist/hmik-project-storybook.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // npm install react-router-dom belum diinstall
+
+// 1. Import Halaman Publik
+import Home from './pages/public/Home';
+// Import file lainnya nanti saat sudah dibuat:
+// import Members from './pages/public/Members';
+// import MemberDetail from './pages/public/MemberDetail';
+// import Learning from './pages/public/Learning';
+// import Election from './pages/public/Election';
+
+// 2. Import Halaman Admin
+// import AdminLogin from './pages/admin/AdminLogin';
+// import Dashboard from './pages/admin/Dashboard';
+
+// 3. Import Halaman 404
+// import NotFound from './pages/NotFound';
+
+/* 
+ * 🛡️ ROUTE GUARD (Sesuai Spesifikasi)
+ * Komponen ini akan mengecek apakah token admin ada di LocalStorage.
+ * Jika tidak ada, paksa pindah (redirect) ke halaman login.
+ */
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem('adminToken'); // Sesuaikan dengan nama key token Anda nantinya
+  return token ? children : <Navigate to="/admin/login" replace />;
+};
+
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <Navbar />
+    <Router>
+      <Routes>
+        {/* =========================================
+            🌐 PUBLIC ROUTES (Halaman Publik)
+            ========================================= */}
+        <Route path="/" element={<Home />} />
+        
+        {/* Komentar sementara, buka jika file sudah ada */}
+        {/* <Route path="/members" element={<Members />} /> */}
+        {/* <Route path="/members/:nim" element={<MemberDetail />} /> */}
+        {/* <Route path="/learning" element={<Learning />} /> */}
+        {/* <Route path="/election" element={<Election />} /> */}
 
-      <section id="center" style={{ marginTop: '2rem' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <h2>Contoh Penggunaan Icon</h2>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <CrownIcon width={50} height={50} />
-            <LogoHmik width={50} height={50} />
-            <SearchIcon width={50} height={50} />
-          </div>
-        </div>
+        {/* =========================================
+            🔐 PROTECTED ROUTES (Halaman Admin)
+            ========================================= */}
+        {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
+        
+        {/* Contoh penerapan PrivateRoute untuk Dashboard Admin */}
+        {/* <Route 
+          path="/admin/dashboard" 
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          } 
+        /> */}
 
-        <div style={{ marginBottom: '2rem' }}>
-          <h2>Contoh Penggunaan Card</h2>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Card 
-              title="Card dari Library" 
-              description="Ini adalah komponen Card yang diambil dari hmik-project-storybook"
-              buttonText="Klik Saya"
-              onClick={() => alert('Card diklik!')}
-            />
-          </div>
-        </div>
-
-        <div>
-          <h2>Contoh Penggunaan Button</h2>
-        </div>
-        <Button variant="primary" onClick={() => setCount((count) => count + 1)}>
-          Count is {count}
-        </Button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* =========================================
+            🛡️ CATCH-ALL ROUTE (404 Not Found)
+            ========================================= */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

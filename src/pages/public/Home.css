@@ -1,0 +1,25 @@
+.homepage-container {
+  font-family: sans-serif;
+}
+
+.section-container {
+  padding: 40px 80px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card-grid {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto; 
+  padding-bottom: 16px;
+}
+
+.bg-light-blue {
+  background-color: #f0f4f8;
+}

@@ -12,7 +12,8 @@
   "dependencies": {
     "@tanstack/react-query": "^5.102.8",
     "axios": "^1.20.0",
-    "hmik-project-storybook": "file:../hmik-coreX-Storybook",
+    "framer-motion": "^13.2.0",
+    "hmik-project-storybook": "file:./hmik-coreX-Storybook",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.3"

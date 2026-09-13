@@ -1,0 +1,186 @@
+.cari-anggota-page {
+  font-family: sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #F5F5F5;
+  min-height: 100vh;
+}
+
+/* BLUE HEADER SECTION */
+.cari-header-section {
+  background-color: #4059AD;
+  width: 100%;
+  padding: 24px 40px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  border-bottom: 4px solid #2B2B2B;
+}
+
+.cari-header-content {
+  width: 100%;
+  max-width: 1480px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cari-title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateX(-4px);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.cari-title-text {
+  font-size: 32px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  margin: 0 !important;
+}
+
+.cari-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* MAIN CONTENT CONTAINER */
+.cari-main-content {
+  padding: 50px 40px;
+  min-height: 600px;
+}
+
+.member-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 28px 24px;
+  width: 100%;
+  max-width: 1480px;
+  justify-items: center;
+}
+
+.member-card-wrapper {
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.member-card-wrapper:hover {
+  transform: translateY(-8px) rotate(-1deg);
+}
+
+.member-card-wrapper:hover {
+  transform: translateY(-6px);
+}
+
+.member-card-wrapper .pengurus-card--anggota {
+  width: 100% !important;
+  max-width: 250px !important;
+  height: 335px !important;
+}
+
+.cari-state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  text-align: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* RESPONSIVE MEDIA QUERIES */
+@media (max-width: 1280px) {
+  .member-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .member-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cari-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .cari-controls-group {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .cari-header-section {
+    padding: 16px 20px;
+  }
+
+  .cari-main-content {
+    padding: 32px 16px;
+  }
+
+  .cari-title-text {
+    font-size: 24px !important;
+  }
+
+  .member-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 12px;
+  }
+
+  .member-card-wrapper .pengurus-card--anggota {
+    height: 280px !important;
+  }
+
+  .cari-controls-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .search-input-pill {
+    width: 100% !important;
+  }
+
+  .select-filter-container {
+    width: 100%;
+  }
+
+  .select-filter-pill {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 400px) {
+  .member-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

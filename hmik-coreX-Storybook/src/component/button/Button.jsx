@@ -1,0 +1,41 @@
+import React from 'react';
+import './Button.css';
+
+export const Button = ({
+    children = 'Button',
+    variant = 'primary',
+    disabled = false,
+    icon = false,
+    onClick,
+    ...props
+}) => {
+    const combinedClassName = `custom-btn btn-${variant} ${props.className || ''}`.trim();
+    
+    // Hapus className dari props agar tidak bentrok
+    const { className, ...restProps } = props;
+
+    return (
+        <button
+            className={combinedClassName}
+            disabled={disabled}
+            onClick={onClick}
+            {...restProps}
+        >
+            <span>{children}</span>
+            {icon && (
+                <svg
+                    className="btn-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                </svg>
+            )}
+        </button>
+    );
+};

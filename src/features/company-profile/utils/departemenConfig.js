@@ -26,7 +26,7 @@ export const DEPARTEMEN_CONFIG = {
     title: 'Departemen Riset dan Teknologi',
     slug: 'ristek',
     kadepTitle: 'Kepala Departemen Riset dan Teknologi',
-    desc: 'Departemen Riset dan Teknologi berfokus pada pengembangan iklim keilmuan dan eksplorasi teknologi terbaru bagi mahasiswa. Kami menyelenggarakan pelatihan, riset, serta wadah diskusi untuk meningkatkan kompetensi teknis dan akademis di bidang IT.',
+    desc: 'Divisi Riset dan Pengembangan Produk merupakan divisi yang dinaungi Departemen Riset dan Teknologi dengab berfokus pada pengembangan kompetensi mahasiswa dalam bidang penelitian, teknologi, dan rekayasa perangkat lunak. Divisi ini berperan dalam mendalami konsep, metode, serta skema yang digunakan dalam suatu sistem atau aplikasi melalui kegiatan riset dan kajian teknologi. Hasil dari kegiatan tersebut dapat digunakan untuk mendukung berbagai proyek teknologi yang dikembangkan oleh himpunan maupun sebagai dasar dalam penyusunan karya tulis dan keikutsertaan dalam kompetisi ilmiah.\n\nSelain berfokus pada riset, divisi ini juga menjadi wadah bagi pengurus untuk mengembangkan keterampilan teknis secara langsung melalui kegiatan pemrograman, perancangan sistem, dan pengembangan aplikasi. Melalui pembelajaran berbasis proyek (project-based learning), pengurus dapat berlatih membuat mini software, merancang alur dan arsitektur aplikasi, mengimplementasikan fitur, hingga menghasilkan produk digital sederhana. Dengan menggabungkan aspek riset dan pengembangan produk, divisi ini diharapkan dapat menciptakan lingkungan belajar yang mendorong pengurus untuk tidak hanya memahami teori dan teknologi, tetapi juga mampu menerapkannya menjadi solusi serta produk yang nyata.',
     divisions: [
       {
         name: 'Divisi Riset & Inovasi',

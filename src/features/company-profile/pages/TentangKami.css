@@ -58,9 +58,11 @@
   max-width: 1480px;
 }
 
+.about-title-container img,
 .about-title-container svg {
   max-width: 100%;
   height: auto;
+  object-fit: contain;
 }
 
 .about-pill {
@@ -409,6 +411,17 @@
     flex-direction: column;
     text-align: center;
     gap: 24px;
+    margin-bottom: 24px;
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .about-title-container img,
+  .about-title-container svg {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 
   .info-card {

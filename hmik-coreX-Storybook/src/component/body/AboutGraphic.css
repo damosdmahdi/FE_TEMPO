@@ -36,12 +36,20 @@
 /* Responsivitas */
 @media (max-width: 768px) {
   .about-graphic-circle {
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
   }
   
-  .about-graphic-circle img {
-    width: 180px;
-    height: 180px;
+  .about-graphic-circle img,
+  .about-graphic-circle svg {
+    width: 190px;
+    height: 190px;
+    max-width: 85%;
+    max-height: 85%;
+  }
+
+  .about-star-blue,
+  .about-star-yellow {
+    display: none !important;
   }
 }

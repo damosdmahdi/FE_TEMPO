@@ -4,6 +4,8 @@ const AboutusTitleIcon = ({
   width = 600,
   height = "auto",
   alt = "About Us Title",
+  className = "",
+  style = {}
 }) => {
   return (
     <img
@@ -11,6 +13,8 @@ const AboutusTitleIcon = ({
       width={width}
       height={height}
       alt={alt}
+      className={className}
+      style={{ maxWidth: "100%", height: "auto", ...style }}
     />
   );
 };

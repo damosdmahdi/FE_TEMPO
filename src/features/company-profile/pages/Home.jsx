@@ -88,12 +88,20 @@ function Home() {
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
-  // Fetch Program Kerja Live API dari Azure
-  const { data: prokerMendatangData, isLoading: isLoadingMendatang } = useProgramKerja('?status=Mendatang');
-  const { data: prokerUnggulanData, isLoading: isLoadingUnggulan } = useProgramKerja('?is_unggulan=true');
+  // Hardcoded for demo
+  const isLoadingMendatang = false;
+  const isLoadingUnggulan = false;
 
-  const prokerMendatang = Array.isArray(prokerMendatangData) ? prokerMendatangData : [];
-  const prokerUnggulan = Array.isArray(prokerUnggulanData) ? prokerUnggulanData : [];
+  const prokerMendatang = [
+    {
+      id_proker: "corex-1",
+      nama_proker: "HMIK-CoreX",
+      dibuat_pada: new Date().toISOString(),
+      foto: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341937/hmik/cp/proker/r91ga6ekfnlxblezb7bp.png"
+    }
+  ];
+
+  const prokerUnggulan = [];
 
   const handleMenuClick = (item) => {
     if (item === 'Beranda') window.scrollTo(0, 0);

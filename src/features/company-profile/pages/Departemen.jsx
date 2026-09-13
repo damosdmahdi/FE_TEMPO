@@ -28,6 +28,7 @@ import './Departemen.css';
 import { useTeam } from '../api/useTeam';
 import { useDepartemen } from '../api/useDepartemen';
 import { DEPARTEMEN_CONFIG } from '../utils/departemenConfig';
+import defaultDeptImg from '../../../assets/dept.png';
 
 // Motion.dev / Framer Motion Variants for Route Transitions
 const pageVariants = {
@@ -140,27 +141,31 @@ function Departemen() {
   const kadepMember = findMemberByTitle(currentDeptConfig.kadepTitle);
   const sekdepMember = currentDeptConfig.sekdepTitle ? findMemberByTitle(currentDeptConfig.sekdepTitle) : null;
 
-  // Program Kerja List dari API Backend (Fallback ke Dummy jika kosong)
-  const dummyImg1 = 'data:image/svg+xml;utf8,<svg width="280" height="220" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="%23FF6B6B"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="bold" fill="white">Proker 1</text></svg>';
-
+  // Program Kerja List dari API Backend (Fallback ke dept.png jika kosong)
   const rawProkerApiList = activeDeptObj?.program_kerja || activeDeptObj?.ProgramKerja || [];
 
   const programKerjaList = useMemo(() => {
     if (rawProkerApiList && rawProkerApiList.length > 0) {
       return rawProkerApiList.map((p) => ({
-        image: p.foto && p.foto.trim() !== '' ? p.foto : dummyImg1,
+        image: p.foto && p.foto.trim() !== '' ? p.foto : defaultDeptImg,
         title: p.nama_proker || 'Program Kerja Departemen',
         description: p.deskripsi || 'Melaksanakan program unggulan departemen untuk pengurus dan anggota.'
       }));
     }
-    return [
+    return currentSlug === 'ristek' ? [
       {
-        image: dummyImg1,
+        image: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341937/hmik/cp/proker/r91ga6ekfnlxblezb7bp.png",
+        title: "HMIK-CoreX",
+        description: "HMIK-CoreX merupakan program kerja Departemen Riset dan Teknologi yang berfokus pada perombakan dan pengembangan ekosistem digital HMIK melalui proses refactoring, integrasi, dan peningkatan sistem secara bertahap. Program ini menggabungkan beberapa platform yang sebelumnya berjalan secara independen, yaitu HMIK VIOLY sebagai platform pemilihan atau e-voting calon Ketua Himpunan, HMIK Modul sebagai platform pembelajaran dan pengembangan keterampilan mahasiswa yang terintegrasi dengan departemen terkait, serta HMIK UPER sebagai platform company profile dan pusat informasi HMIK. Pengembangan dilakukan secara bertahap (phased development), dengan fase pertama berfokus pada integrasi dan pembaruan sistem yang kemudian akan dilanjutkan pada fase berikutnya di tahun ajaran selanjutnya."
+      }
+    ] : [
+      {
+        image: defaultDeptImg,
         title: `Program Kerja Utama ${currentDeptConfig.title}`,
         description: "Melaksanakan program unggulan untuk mendukung pengembangan potensi anggota HMIK."
       }
     ];
-  }, [rawProkerApiList, currentDeptConfig]);
+  }, [rawProkerApiList, currentSlug, currentDeptConfig]);
 
   const handleNextProker = () => {
     setProkerIndex((prev) => (prev === programKerjaList.length - 1 ? 0 : prev + 1));

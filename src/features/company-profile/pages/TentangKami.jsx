@@ -18,8 +18,7 @@ import { motion } from 'framer-motion';
 import 'hmik-project-storybook/dist/hmik-project-storybook.css';
 import './TentangKami.css';
 
-import { useTeam } from '../api/useTeam';
-import profileImg1 from '../../../assets/hero.png'; 
+import { useTeam } from '../api/useTeam'; 
 
 // Framer Motion / Motion.dev Variants for Route Transitions
 const pageVariants = {
@@ -158,15 +157,16 @@ function TentangKami() {
         >
           <motion.div variants={popItem} whileHover={{ y: -8, rotate: -1 }} transition={{ type: 'spring', stiffness: 300 }}>
             <TapeCard title="Visi" variant="blue" tapeType="1">
-              "Menjadikan HMIK UPER sebagai wadah pengorganisasian mahasiswa yang inklusif, inovatif, dan berlandaskan rasa kekeluargaan serta profesionalisme berstandar tinggi."
+              "Menjadi himpunan mahasiswa yang memiliki solidaritas tinggi dan bergerak aktif sesuai dengan nilai-nilai Universitas Pertamina."
             </TapeCard>
           </motion.div>
           
           <motion.div variants={popItem} whileHover={{ y: -8, rotate: 1 }} transition={{ type: 'spring', stiffness: 300 }}>
             <TapeCard title="Misi" variant="yellow" tapeType="2">
               <ul>
-                <li>Mewadahi dan memfasilitasi pengembangan potensi akademis serta keahlian riset mahasiswa Ilmu Komputer.</li>
-                <li>Membangun sinergi yang kokoh antara mahasiswa, program studi, alumni, dan masyarakat luar.</li>
+                <li>Turut serta dalam berbagai kegiatan yang diselenggarakan oleh UPer.</li>
+                <li>Melakukan kegiatan yang dapat melatih soft-skill, hard-skill, maupun life-skill.</li>
+                <li>Menjunjung tinggi nilai-nilai Universitas Pertamina dalam setiap kegiatan himpunan.</li>
               </ul>
             </TapeCard>
           </motion.div>
@@ -308,11 +308,16 @@ function TentangKami() {
           viewport={{ once: true, amount: 0.2 }}
         >
           {[
-            { title: "Media Informasi", slug: "medinfo" },
-            { title: "Academy Up", slug: "academy-up" },
-            { title: "Riset dan Teknologi", slug: "ristek" },
-            { title: "Internal", slug: "internal" },
-            { title: "Eksternal", slug: "eksternal" }
+            { title: "Media Informasi", slug: "medinfo", desc: "Departemen HMIK UPER", img: profileImg1 },
+            { title: "Academy Up", slug: "academy-up", desc: "Departemen HMIK UPER", img: profileImg1 },
+            { 
+              title: "Riset dan Teknologi", 
+              slug: "ristek", 
+              desc: "Divisi Riset dan Pengembangan Produk merupakan divisi yang dinaungi Departemen Riset...", 
+              img: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341936/hmik/cp/departemen/hczqgzv7cfg0npdvf3yw.png" 
+            },
+            { title: "Internal", slug: "internal", desc: "Departemen HMIK UPER", img: profileImg1 },
+            { title: "Eksternal", slug: "eksternal", desc: "Departemen HMIK UPER", img: profileImg1 }
           ].map((dept, idx) => (
             <motion.div 
               key={idx} 
@@ -324,8 +329,8 @@ function TentangKami() {
               <NewsCard 
                 variant="departemen"
                 title={dept.title}
-                date="Departemen HMIK UPER"
-                image={profileImg1}
+                date={dept.desc}
+                image={dept.img}
                 onClick={() => navigate(`/departemen/${dept.slug}`)}
               />
             </motion.div>

@@ -18,7 +18,8 @@ import { motion } from 'framer-motion';
 import 'hmik-project-storybook/dist/hmik-project-storybook.css';
 import './TentangKami.css';
 
-import { useTeam } from '../api/useTeam'; 
+import { useTeam } from '../api/useTeam';
+import defaultDeptImg from '../../../assets/dept.png';
 
 // Framer Motion / Motion.dev Variants for Route Transitions
 const pageVariants = {
@@ -308,16 +309,16 @@ function TentangKami() {
           viewport={{ once: true, amount: 0.2 }}
         >
           {[
-            { title: "Media Informasi", slug: "medinfo", desc: "Departemen HMIK UPER", img: profileImg1 },
-            { title: "Academy Up", slug: "academy-up", desc: "Departemen HMIK UPER", img: profileImg1 },
+            { title: "Media Informasi", slug: "medinfo", desc: "Departemen HMIK UPER", img: defaultDeptImg },
+            { title: "Academy Up", slug: "academy-up", desc: "Departemen HMIK UPER", img: defaultDeptImg },
             { 
               title: "Riset dan Teknologi", 
               slug: "ristek", 
               desc: "Divisi Riset dan Pengembangan Produk merupakan divisi yang dinaungi Departemen Riset...", 
               img: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341936/hmik/cp/departemen/hczqgzv7cfg0npdvf3yw.png" 
             },
-            { title: "Internal", slug: "internal", desc: "Departemen HMIK UPER", img: profileImg1 },
-            { title: "Eksternal", slug: "eksternal", desc: "Departemen HMIK UPER", img: profileImg1 }
+            { title: "Internal", slug: "internal", desc: "Departemen HMIK UPER", img: defaultDeptImg },
+            { title: "Eksternal", slug: "eksternal", desc: "Departemen HMIK UPER", img: defaultDeptImg }
           ].map((dept, idx) => (
             <motion.div 
               key={idx} 

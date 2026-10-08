@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../services/api';
 
-const CACHE_KEY = 'hmik_cached_departemen_data';
+const CACHE_KEY = 'hmik_cached_departemen_v4';
 const CACHE_TIME_KEY = 'hmik_cached_departemen_timestamp';
 const ONE_HOUR = 60 * 60 * 1000; // 1 hour in milliseconds
 

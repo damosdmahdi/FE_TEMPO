@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://hmik-api.jollydesert-d738a848.southeastasia.azurecontainerapps.io/api/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,7 @@ const api = axios.create({
 // Request Interceptor: Attach JWT token if available
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('hmik_token');
+    const token = localStorage.getItem('adminToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -30,7 +30,7 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('hmik_token');
+      localStorage.removeItem('adminToken');
     }
     const errorMessage = error.response?.data?.message || 'Terjadi kesalahan jaringan';
     return Promise.reject(errorMessage);

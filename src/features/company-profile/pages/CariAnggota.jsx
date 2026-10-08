@@ -244,9 +244,15 @@ function CariAnggota() {
                 transition={{ duration: 0.25 }}
               >
                 {paginatedMembers.map((m, idx) => {
+                  const getImageUrl = (imagePath) => {
+                    if (!imagePath) return null;
+                    if (imagePath.startsWith('http')) return imagePath;
+                    return `https://res.cloudinary.com/du9sbnbx9/image/upload/${imagePath}`;
+                  };
+
                   const pengguna = m.Pengguna || m.pengguna || {};
                   const nama = pengguna.NamaLengkap || pengguna.nama_lengkap || 'Anggota HMIK';
-                  const foto = pengguna.FotoPengguna || pengguna.foto_pengguna || getAvatarFallback(nama);
+                  const foto = getImageUrl(pengguna.FotoPengguna || pengguna.foto_pengguna) || getAvatarFallback(nama);
                   const jabatan = m.Jabatan || m.jabatan || 'Anggota';
 
                   return (

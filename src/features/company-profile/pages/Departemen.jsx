@@ -27,7 +27,7 @@ import './Departemen.css';
 
 import { useTeam } from '../api/useTeam';
 import { useDepartemen } from '../api/useDepartemen';
-import { DEPARTEMEN_CONFIG } from '../utils/departemenConfig';
+
 import defaultDeptImg from '../../../assets/dept.png';
 
 // Motion.dev / Framer Motion Variants for Route Transitions
@@ -94,18 +94,17 @@ function Departemen() {
   };
 
   const currentSlug = id ? id.toLowerCase() : 'academy-up';
-  const currentDeptConfig = DEPARTEMEN_CONFIG[currentSlug] || DEPARTEMEN_CONFIG['academy-up'];
 
   // Match URL slug ke nama_departemen di database backend
   const activeDeptObj = useMemo(() => {
     if (!deptList || deptList.length === 0) return null;
     return deptList.find((d) => {
       const name = (d.nama_departemen || d.NamaDepartemen || '').toLowerCase().trim();
-      if (currentSlug === 'medinfo') return name.includes('media') || name.includes('medinfo');
-      if (currentSlug === 'academy-up') return name.includes('academy');
-      if (currentSlug === 'ristek') return name.includes('riset') || name.includes('ristek');
-      if (currentSlug === 'internal') return name.includes('internal');
-      if (currentSlug === 'eksternal') return name.includes('eksternal');
+      if (currentSlug === 'medinfo') return name === 'media informasi';
+      if (currentSlug === 'academy-up') return name === 'academy up';
+      if (currentSlug === 'ristek') return name === 'riset dan teknologi';
+      if (currentSlug === 'internal') return name === 'manajemen internal';
+      if (currentSlug === 'eksternal') return name === 'hubungan external';
       return false;
     });
   }, [deptList, currentSlug]);
@@ -123,49 +122,42 @@ function Departemen() {
     return `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name || 'Anggota HMIK')}`;
   };
 
-  // Helper pencarian anggota berdasarkan Jabatan
-  const findMemberByTitle = (title) => {
-    if (!teamData || !Array.isArray(teamData)) return null;
-    return teamData.find(
-      (m) => (m.Jabatan || m.jabatan || '').toLowerCase().trim() === title.toLowerCase().trim()
-    );
+  const deptMembers = activeDeptObj?.anggota || activeDeptObj?.Anggota || [];
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    return `https://res.cloudinary.com/du9sbnbx9/image/upload/${imagePath}`;
   };
 
-  const filterMembersByTitle = (title) => {
-    if (!teamData || !Array.isArray(teamData)) return [];
-    return teamData.filter(
-      (m) => (m.Jabatan || m.jabatan || '').toLowerCase().trim() === title.toLowerCase().trim()
-    );
-  };
+  const kadepMember = deptMembers.find(m => {
+    const title = (m.jabatan || m.Jabatan || '').toLowerCase();
+    return title.includes('kepala departemen') || title.includes('ketua departemen') || title.includes('kadep');
+  });
 
-  const kadepMember = findMemberByTitle(currentDeptConfig.kadepTitle);
-  const sekdepMember = currentDeptConfig.sekdepTitle ? findMemberByTitle(currentDeptConfig.sekdepTitle) : null;
+  const sekdepMember = deptMembers.find(m => {
+    const title = (m.jabatan || m.Jabatan || '').toLowerCase();
+    return title.includes('sekretaris departemen') || title.includes('sekdep');
+  });
 
-  // Program Kerja List dari API Backend (Fallback ke dept.png jika kosong)
   const rawProkerApiList = activeDeptObj?.program_kerja || activeDeptObj?.ProgramKerja || [];
 
   const programKerjaList = useMemo(() => {
     if (rawProkerApiList && rawProkerApiList.length > 0) {
       return rawProkerApiList.map((p) => ({
-        image: p.foto && p.foto.trim() !== '' ? p.foto : defaultDeptImg,
+        image: getImageUrl(p.foto && p.foto.trim() !== '' ? p.foto : null) || defaultDeptImg,
         title: p.nama_proker || 'Program Kerja Departemen',
         description: p.deskripsi || 'Melaksanakan program unggulan departemen untuk pengurus dan anggota.'
       }));
     }
-    return currentSlug === 'ristek' ? [
-      {
-        image: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341937/hmik/cp/proker/r91ga6ekfnlxblezb7bp.png",
-        title: "HMIK-CoreX",
-        description: "HMIK-CoreX merupakan program kerja Departemen Riset dan Teknologi yang berfokus pada perombakan dan pengembangan ekosistem digital HMIK melalui proses refactoring, integrasi, dan peningkatan sistem secara bertahap. Program ini menggabungkan beberapa platform yang sebelumnya berjalan secara independen, yaitu HMIK VIOLY sebagai platform pemilihan atau e-voting calon Ketua Himpunan, HMIK Modul sebagai platform pembelajaran dan pengembangan keterampilan mahasiswa yang terintegrasi dengan departemen terkait, serta HMIK UPER sebagai platform company profile dan pusat informasi HMIK. Pengembangan dilakukan secara bertahap (phased development), dengan fase pertama berfokus pada integrasi dan pembaruan sistem yang kemudian akan dilanjutkan pada fase berikutnya di tahun ajaran selanjutnya."
-      }
-    ] : [
+    return [
       {
         image: defaultDeptImg,
-        title: `Program Kerja Utama ${currentDeptConfig.title}`,
+        title: `Program Kerja Utama`,
         description: "Melaksanakan program unggulan untuk mendukung pengembangan potensi anggota HMIK."
       }
     ];
-  }, [rawProkerApiList, currentSlug, currentDeptConfig]);
+  }, [rawProkerApiList]);
 
   const handleNextProker = () => {
     setProkerIndex((prev) => (prev === programKerjaList.length - 1 ? 0 : prev + 1));
@@ -174,6 +166,16 @@ function Departemen() {
   const handlePrevProker = () => {
     setProkerIndex((prev) => (prev === 0 ? programKerjaList.length - 1 : prev - 1));
   };
+
+  const DIVISIONS_CONFIG = {
+    'eksternal': ['Pengabdian Masyarakat', 'Kemitraan Strategis'],
+    'ristek': ['Riset & Inovasi', 'Pengembangan Produk'],
+    'internal': ['MSDA', 'Minat & Bakat', 'Aset & Perlengkapan'],
+    'academy-up': ['Akademik', 'Keprofesian'],
+    'medinfo': ['Media Kreatif', 'Publikasi & Dokumentasi']
+  };
+
+  const currentDivisions = DIVISIONS_CONFIG[currentSlug] || [];
 
   return (
     <motion.div 
@@ -274,13 +276,13 @@ function Departemen() {
         {...sectionReveal}
       >
         <div className="section-header">
-          <Typography variant="heading1">{currentDeptConfig.title}</Typography>
+          <Typography variant="heading1">{activeDeptObj?.nama_departemen || 'Departemen'}</Typography>
           <motion.div whileHover={{ scale: 1.15, rotate: 8 }} transition={{ type: 'spring', stiffness: 300 }}>
             {deptIcons[currentSlug] || <AcademyupIcon width={56} height={56} />}
           </motion.div>
         </div>
         <Typography variant="body" className="departemen-description">
-          {currentDeptConfig.desc}
+          {activeDeptObj?.deskripsi || 'Memuat deskripsi departemen...'}
         </Typography>
       </motion.section>
 
@@ -334,7 +336,7 @@ function Departemen() {
                 variant="ketua"
                 name={kadepMember ? kadepMember.Pengguna?.NamaLengkap : 'Karina Siregar'}
                 role="Ketua Departemen"
-                image={kadepMember?.Pengguna?.FotoPengguna || getAvatarFallback(kadepMember?.Pengguna?.NamaLengkap || 'Kadep')}
+                image={getImageUrl(kadepMember?.Pengguna?.FotoPengguna) || getAvatarFallback(kadepMember?.Pengguna?.NamaLengkap || 'Kadep')}
               />
             </motion.div>
             {sekdepMember && (
@@ -343,7 +345,7 @@ function Departemen() {
                   variant="ketua"
                   name={sekdepMember.Pengguna?.NamaLengkap}
                   role="Sekretaris Departemen"
-                  image={sekdepMember.Pengguna?.FotoPengguna || getAvatarFallback(sekdepMember.Pengguna?.NamaLengkap)}
+                  image={getImageUrl(sekdepMember.Pengguna?.FotoPengguna) || getAvatarFallback(sekdepMember.Pengguna?.NamaLengkap)}
                 />
               </motion.div>
             )}
@@ -351,36 +353,65 @@ function Departemen() {
 
           {/* Divisi - Divisi (Scroll Horizontal dengan Container Kuning sesuai Figma) */}
           <div className="divisi-scroll-wrapper">
-            {currentDeptConfig.divisions.map((div, idx) => {
-              const kadiv = findMemberByTitle(div.kadivTitle);
-              const anggotaList = filterMembersByTitle(div.anggotaTitle);
+            {currentDivisions.length > 0 ? (
+              currentDivisions.map((divName, idx) => {
+                const searchStr = divName.toLowerCase();
+                
+                const kadiv = deptMembers.find(m => {
+                  const j = (m.jabatan || m.Jabatan || '').toLowerCase();
+                  return (j.includes('ketua divisi') || j.includes('kadiv')) && j.includes(searchStr);
+                });
 
-              return (
-                <div key={idx} className="divisi-box-container">
-                  {/* Kadiv Card */}
-                  <motion.div whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }}>
-                    <PengurusCard 
-                      variant="anggota"
-                      name={kadiv ? kadiv.Pengguna?.NamaLengkap : 'Nama Kadiv'}
-                      role="Ketua Divisi"
-                      image={kadiv?.Pengguna?.FotoPengguna || getAvatarFallback(kadiv?.Pengguna?.NamaLengkap || div.name)}
-                    />
-                  </motion.div>
+                const anggotaList = deptMembers.filter(m => {
+                  const j = (m.jabatan || m.Jabatan || '').toLowerCase();
+                  return j.includes('anggota') && j.includes(searchStr);
+                });
 
-                  {/* Anggota Cards */}
-                  {anggotaList.map((m, mIdx) => (
-                    <motion.div key={mIdx} whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }}>
+                if (!kadiv && anggotaList.length === 0) return null;
+
+                return (
+                  <div key={idx} className="divisi-box-container">
+                    {/* Kadiv Card */}
+                    <motion.div whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }}>
                       <PengurusCard 
                         variant="anggota"
-                        name={m.Pengguna?.NamaLengkap}
-                        role="Anggota"
-                        image={m.Pengguna?.FotoPengguna || getAvatarFallback(m.Pengguna?.NamaLengkap)}
+                        name={kadiv ? kadiv.Pengguna?.NamaLengkap : 'Nama Kadiv'}
+                        role="Ketua Divisi"
+                        image={getImageUrl(kadiv?.Pengguna?.FotoPengguna) || getAvatarFallback(kadiv?.Pengguna?.NamaLengkap || divName)}
                       />
                     </motion.div>
-                  ))}
-                </div>
-              );
-            })}
+
+                    {/* Anggota Cards */}
+                    {anggotaList.map((m, mIdx) => (
+                      <motion.div key={mIdx} whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }}>
+                        <PengurusCard 
+                          variant="anggota"
+                          name={m.Pengguna?.NamaLengkap}
+                          role="Anggota"
+                          image={getImageUrl(m.Pengguna?.FotoPengguna) || getAvatarFallback(m.Pengguna?.NamaLengkap)}
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                );
+              })
+            ) : (
+              // Fallback if no divisions config for this department, just map remaining members
+              <div className="divisi-box-container" style={{ flexWrap: 'wrap', overflowX: 'unset' }}>
+                {deptMembers
+                  .filter(m => m !== kadepMember && m !== sekdepMember)
+                  .map((m, mIdx) => (
+                  <motion.div key={mIdx} whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }} style={{ marginBottom: '16px' }}>
+                    <PengurusCard 
+                      variant="anggota"
+                      name={m.Pengguna?.NamaLengkap}
+                      role={m.Jabatan || m.jabatan || 'Anggota'}
+                      image={getImageUrl(m.Pengguna?.FotoPengguna) || getAvatarFallback(m.Pengguna?.NamaLengkap)}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </motion.section>

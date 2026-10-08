@@ -6,10 +6,11 @@ import Home from './features/company-profile/pages/Home';
 import TentangKami from './features/company-profile/pages/TentangKami';
 import Departemen from './features/company-profile/pages/Departemen';
 import CariAnggota from './features/company-profile/pages/CariAnggota';
+import Login from './features/auth/pages/Login';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('adminToken');
-  return token ? children : <Navigate to="/admin/login" replace />;
+  return token ? children : <Navigate to="/login" replace />;
 };
 
 function AnimatedRoutes() {
@@ -22,7 +23,12 @@ function AnimatedRoutes() {
         <Route path="/tentang-kami" element={<TentangKami />} />
         <Route path="/departemen" element={<Departemen />} />
         <Route path="/departemen/:id" element={<Departemen />} />
-        <Route path="/cari-anggota" element={<CariAnggota />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cari-anggota" element={
+          <PrivateRoute>
+            <CariAnggota />
+          </PrivateRoute>
+        } />
       </Routes>
     </AnimatePresence>
   );

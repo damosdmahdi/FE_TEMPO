@@ -19,7 +19,14 @@ import 'hmik-project-storybook/dist/hmik-project-storybook.css';
 import './TentangKami.css';
 
 import { useTeam } from '../api/useTeam';
+import { useDepartemen } from '../api/useDepartemen';
 import defaultDeptImg from '../../../assets/dept.png';
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith('http')) return imagePath;
+  return `https://res.cloudinary.com/du9sbnbx9/image/upload/${imagePath}`;
+};
 
 // Framer Motion / Motion.dev Variants for Route Transitions
 const pageVariants = {
@@ -79,6 +86,9 @@ const popItem = {
 function TentangKami() {
   const navigate = useNavigate();
   const { data: teamData, isLoading } = useTeam();
+  const { data: deptListData } = useDepartemen();
+  
+  const deptList = React.useMemo(() => (Array.isArray(deptListData) ? deptListData : []), [deptListData]);
 
   const handleMenuClick = (item) => {
     if (item === 'Beranda') navigate('/');
@@ -308,34 +318,42 @@ function TentangKami() {
           whileInView="whileInView"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {[
-            { title: "Media Informasi", slug: "medinfo", desc: "Departemen HMIK UPER", img: defaultDeptImg },
-            { title: "Academy Up", slug: "academy-up", desc: "Departemen HMIK UPER", img: defaultDeptImg },
-            { 
-              title: "Riset dan Teknologi", 
-              slug: "ristek", 
-              desc: "Divisi Riset dan Pengembangan Produk merupakan divisi yang dinaungi Departemen Riset...", 
-              img: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341936/hmik/cp/departemen/hczqgzv7cfg0npdvf3yw.png" 
-            },
-            { title: "Internal", slug: "internal", desc: "Departemen HMIK UPER", img: defaultDeptImg },
-            { title: "Eksternal", slug: "eksternal", desc: "Departemen HMIK UPER", img: defaultDeptImg }
-          ].map((dept, idx) => (
-            <motion.div 
-              key={idx} 
-              variants={popItem}
-              whileHover={{ y: -8, scale: 1.03 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              <NewsCard 
-                variant="departemen"
-                title={dept.title}
-                date={dept.desc}
-                image={dept.img}
-                onClick={() => navigate(`/departemen/${dept.slug}`)}
-              />
-            </motion.div>
-          ))}
+          {deptList.filter((dept) => {
+            const name = (dept.nama_departemen || '').toLowerCase().trim();
+            return name === 'riset dan teknologi' || 
+                   name === 'media informasi' || 
+                   name === 'hubungan external' || 
+                   name === 'manajemen internal' ||
+                   name === 'academy up';
+          }).map((dept, idx) => {
+            const name = (dept.nama_departemen || '').toLowerCase();
+            let slug = 'academy-up';
+            if (name === 'media informasi') slug = 'medinfo';
+            else if (name === 'riset dan teknologi') slug = 'ristek';
+            else if (name === 'manajemen internal') slug = 'internal';
+            else if (name === 'hubungan external') slug = 'eksternal';
+            
+            const shortDesc = dept.deskripsi && dept.deskripsi.length > 50 
+              ? dept.deskripsi.substring(0, 50) + '...' 
+              : (dept.deskripsi || 'Departemen HMIK UPER');
+            return (
+              <motion.div 
+                key={idx} 
+                variants={popItem}
+                whileHover={{ y: -8, scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                <NewsCard 
+                  variant="departemen"
+                  title={dept.nama_departemen}
+                  date={shortDesc}
+                  image={getImageUrl(dept.logo || dept.Logo) || defaultDeptImg}
+                  onClick={() => navigate(`/departemen/${slug}`)}
+                />
+              </motion.div>
+            );
+          })}
         </motion.div>
       </motion.section>
 

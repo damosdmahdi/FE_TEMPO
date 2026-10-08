@@ -88,20 +88,28 @@ function Home() {
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
-  // Hardcoded for demo
-  const isLoadingMendatang = false;
-  const isLoadingUnggulan = false;
+  const { data: prokerData, isLoading: isLoadingProker } = useProgramKerja();
+  
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    return `https://res.cloudinary.com/du9sbnbx9/image/upload/${imagePath}`;
+  };
 
-  const prokerMendatang = [
-    {
-      id_proker: "corex-1",
-      nama_proker: "HMIK-CoreX",
-      dibuat_pada: new Date().toISOString(),
-      foto: "https://res.cloudinary.com/du9sbnbx9/image/upload/v1789341937/hmik/cp/proker/r91ga6ekfnlxblezb7bp.png"
-    }
-  ];
+  const prokerMendatang = React.useMemo(() => {
+    if (!prokerData || !prokerData.data) return [];
+    // Just take the first 3 for "mendatang" as an example
+    return prokerData.data.slice(0, 3);
+  }, [prokerData]);
 
-  const prokerUnggulan = [];
+  const prokerUnggulan = React.useMemo(() => {
+    if (!prokerData || !prokerData.data) return [];
+    // Take the next 3 for "unggulan" as an example
+    return prokerData.data.slice(3, 6);
+  }, [prokerData]);
+
+  const isLoadingMendatang = isLoadingProker;
+  const isLoadingUnggulan = isLoadingProker;
 
   const handleMenuClick = (item) => {
     if (item === 'Beranda') window.scrollTo(0, 0);
@@ -220,7 +228,7 @@ function Home() {
                 <NewsCard 
                   title={item.nama_proker || 'Program Kerja'}
                   date={formatDate(item.dibuat_pada)}
-                  image={item.foto && item.foto.trim() !== '' ? item.foto : vollyImg}
+                  image={getImageUrl(item.foto && item.foto.trim() !== '' ? item.foto : null) || vollyImg}
                 />
               </motion.div>
             ))}
@@ -272,7 +280,7 @@ function Home() {
                   <GalleryCard 
                     variant="overlay"
                     title={item.nama_proker || 'Program Unggulan'}
-                    image={item.foto && item.foto.trim() !== '' ? item.foto : vollyImg}
+                    image={getImageUrl(item.foto && item.foto.trim() !== '' ? item.foto : null) || vollyImg}
                   />
                 </motion.div>
               ))}

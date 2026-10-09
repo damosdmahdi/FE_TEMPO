@@ -112,8 +112,7 @@ function CariAnggota() {
     if (!teamData || !Array.isArray(teamData)) return [];
 
     return teamData.filter((member) => {
-      const pengguna = member.Pengguna || member.pengguna || {};
-      const nama = (pengguna.NamaLengkap || pengguna.nama_lengkap || '').toLowerCase();
+      const nama = (member.NamaLengkap || member.nama_lengkap || '').toLowerCase();
       const nim = (member.NIM || member.nim || '').toLowerCase();
       const jabatan = (member.Jabatan || member.jabatan || '').toLowerCase();
       const angkatan = String(member.Angkatan || member.angkatan || '');
@@ -250,9 +249,8 @@ function CariAnggota() {
                     return `https://res.cloudinary.com/du9sbnbx9/image/upload/${imagePath}`;
                   };
 
-                  const pengguna = m.Pengguna || m.pengguna || {};
-                  const nama = pengguna.NamaLengkap || pengguna.nama_lengkap || 'Anggota HMIK';
-                  const foto = getImageUrl(pengguna.FotoPengguna || pengguna.foto_pengguna) || getAvatarFallback(nama);
+                  const nama = m.NamaLengkap || m.nama_lengkap || 'Anggota HMIK';
+                  const foto = getImageUrl(m.FotoProfil || m.foto_profil) || getAvatarFallback(nama);
                   const jabatan = m.Jabatan || m.jabatan || 'Anggota';
 
                   return (

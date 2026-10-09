@@ -334,18 +334,18 @@ function Departemen() {
             <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
               <PengurusCard 
                 variant="ketua"
-                name={kadepMember ? kadepMember.Pengguna?.NamaLengkap : 'Karina Siregar'}
+                name={kadepMember ? kadepMember.NamaLengkap : 'Karina Siregar'}
                 role="Ketua Departemen"
-                image={getImageUrl(kadepMember?.Pengguna?.FotoPengguna) || getAvatarFallback(kadepMember?.Pengguna?.NamaLengkap || 'Kadep')}
+                image={getImageUrl(kadepMember?.FotoProfil) || getAvatarFallback(kadepMember?.NamaLengkap || 'Kadep')}
               />
             </motion.div>
             {sekdepMember && (
               <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <PengurusCard 
                   variant="ketua"
-                  name={sekdepMember.Pengguna?.NamaLengkap}
+                  name={sekdepMember.NamaLengkap}
                   role="Sekretaris Departemen"
-                  image={getImageUrl(sekdepMember.Pengguna?.FotoPengguna) || getAvatarFallback(sekdepMember.Pengguna?.NamaLengkap)}
+                  image={getImageUrl(sekdepMember.FotoProfil) || getAvatarFallback(sekdepMember.NamaLengkap)}
                 />
               </motion.div>
             )}
@@ -375,9 +375,9 @@ function Departemen() {
                     <motion.div whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }}>
                       <PengurusCard 
                         variant="anggota"
-                        name={kadiv ? kadiv.Pengguna?.NamaLengkap : 'Nama Kadiv'}
+                        name={kadiv ? kadiv.NamaLengkap : 'Nama Kadiv'}
                         role="Ketua Divisi"
-                        image={getImageUrl(kadiv?.Pengguna?.FotoPengguna) || getAvatarFallback(kadiv?.Pengguna?.NamaLengkap || divName)}
+                        image={getImageUrl(kadiv?.FotoProfil) || getAvatarFallback(kadiv?.NamaLengkap || divName)}
                       />
                     </motion.div>
 
@@ -386,9 +386,9 @@ function Departemen() {
                       <motion.div key={mIdx} whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }}>
                         <PengurusCard 
                           variant="anggota"
-                          name={m.Pengguna?.NamaLengkap}
+                          name={m.NamaLengkap}
                           role="Anggota"
-                          image={getImageUrl(m.Pengguna?.FotoPengguna) || getAvatarFallback(m.Pengguna?.NamaLengkap)}
+                          image={getImageUrl(m.FotoProfil) || getAvatarFallback(m.NamaLengkap)}
                         />
                       </motion.div>
                     ))}
@@ -404,9 +404,9 @@ function Departemen() {
                   <motion.div key={mIdx} whileHover={{ y: -6, scale: 1.03 }} transition={{ type: 'spring', stiffness: 300 }} style={{ marginBottom: '16px' }}>
                     <PengurusCard 
                       variant="anggota"
-                      name={m.Pengguna?.NamaLengkap}
+                      name={m.NamaLengkap}
                       role={m.Jabatan || m.jabatan || 'Anggota'}
-                      image={getImageUrl(m.Pengguna?.FotoPengguna) || getAvatarFallback(m.Pengguna?.NamaLengkap)}
+                      image={getImageUrl(m.FotoProfil) || getAvatarFallback(m.NamaLengkap)}
                     />
                   </motion.div>
                 ))}

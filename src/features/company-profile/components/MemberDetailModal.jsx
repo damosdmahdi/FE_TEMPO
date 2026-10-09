@@ -21,9 +21,8 @@ const DownloadIcon = () => (
 function MemberDetailModal({ member, onClose }) {
   if (!member) return null;
 
-  const pengguna = member.Pengguna || member.pengguna || {};
-  const nama = pengguna.NamaLengkap || pengguna.nama_lengkap || 'Karina Siregar';
-  const foto = pengguna.FotoPengguna || pengguna.foto_pengguna || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(nama)}`;
+  const nama = member.NamaLengkap || member.nama_lengkap || 'Karina Siregar';
+  const foto = member.FotoProfil || member.foto_profil || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(nama)}`;
   const nim = member.NIM || member.nim || '105227007';
   const prodi = member.ProgramStudi || member.program_studi || 'Ilmu Komputer';
   const angkatan = member.Angkatan || member.angkatan || '2027';

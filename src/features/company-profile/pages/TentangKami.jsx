@@ -120,8 +120,8 @@ function TentangKami() {
         image: getAvatarFallback(fallbackName),
       };
     }
-    const name = found.Pengguna?.NamaLengkap || found.Pengguna?.nama_lengkap || fallbackName;
-    const photo = found.Pengguna?.FotoPengguna || found.Pengguna?.foto_pengguna || getAvatarFallback(name);
+    const name = found.NamaLengkap || found.nama_lengkap || fallbackName;
+    const photo = found.FotoProfil || found.foto_profil || getAvatarFallback(name);
     return {
       title: name,
       subtitle: found.Jabatan || found.jabatan || roleTitle,
@@ -174,11 +174,9 @@ function TentangKami() {
           
           <motion.div variants={popItem} whileHover={{ y: -8, rotate: 1 }} transition={{ type: 'spring', stiffness: 300 }}>
             <TapeCard title="Misi" variant="yellow" tapeType="2">
-              <ul>
-                <li>Turut serta dalam berbagai kegiatan yang diselenggarakan oleh UPer.</li>
-                <li>Melakukan kegiatan yang dapat melatih soft-skill, hard-skill, maupun life-skill.</li>
-                <li>Menjunjung tinggi nilai-nilai Universitas Pertamina dalam setiap kegiatan himpunan.</li>
-              </ul>
+              <div>• Turut serta dalam berbagai kegiatan yang diselenggarakan oleh UPer.</div>
+              <div>• Melakukan kegiatan yang dapat melatih soft-skill, hard-skill, maupun life-skill.</div>
+              <div>• Menjunjung tinggi nilai-nilai Universitas Pertamina dalam setiap kegiatan himpunan.</div>
             </TapeCard>
           </motion.div>
         </motion.div>

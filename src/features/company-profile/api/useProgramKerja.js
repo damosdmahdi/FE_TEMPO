@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../services/api';
 
-const CACHE_PREFIX = 'hmik_cached_proker_';
+const CACHE_PREFIX = 'hmik_cached_proker_v2_';
 const ONE_HOUR = 60 * 60 * 1000; // 1 hour in milliseconds
 
 export const fetchProgramKerja = async (paramsStr = '') => {

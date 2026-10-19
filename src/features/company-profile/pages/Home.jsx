@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Button, NewsCard, GalleryCard, Typography, Footer, TextCard, AboutGraphic, ArrowUpRightIcon, IdeaIcon, WorkIcon, TrophyIcon, YellowStarIcon }  from 'hmik-project-storybook';
+import { Navbar, Button, NewsCard, GalleryCard, Typography, Footer, TextCard, AboutGraphic, ArrowUpRightIcon, IdeaIcon, WorkIcon, TrophyIcon, YellowStarIcon } from 'hmik-project-storybook';
 import 'hmik-project-storybook/dist/hmik-project-storybook.css';
 import './Home.css';
 import heroImg from '../../../assets/hero.png';
@@ -11,62 +11,62 @@ import { useProgramKerja } from '../api/useProgramKerja';
 
 // Motion.dev / Framer Motion Variants for Route Transitions
 const pageVariants = {
-  initial: { 
-    opacity: 0, 
-    y: 40, 
-    scale: 0.98,
-    filter: 'blur(3px)'
-  },
-  animate: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: { 
-      duration: 0.45, 
-      ease: [0.22, 1, 0.36, 1]
-    } 
-  },
-  exit: { 
-    opacity: 0, 
-    y: -30, 
+  initial: {
+    opacity: 0,
+    y: 40,
     scale: 0.98,
     filter: 'blur(3px)',
-    transition: { 
-      duration: 0.28, 
-      ease: [0.4, 0, 1, 1] 
-    } 
-  }
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -30,
+    scale: 0.98,
+    filter: 'blur(3px)',
+    transition: {
+      duration: 0.28,
+      ease: [0.4, 0, 1, 1],
+    },
+  },
 };
 
 const heroVariants = {
   initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 180, damping: 18, delay: 0.1 } }
+  animate: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 180, damping: 18, delay: 0.1 } },
 };
 
 const sectionRevealVariants = {
   initial: { opacity: 0, y: 35 },
   whileInView: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 150, damping: 20 } },
-  viewport: { once: true, amount: 0.2 }
+  viewport: { once: true, amount: 0.2 },
 };
 
 const containerStaggerVariants = {
   initial: { opacity: 0 },
-  whileInView: { 
+  whileInView: {
     opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 } 
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
   },
-  viewport: { once: true, amount: 0.2 }
+  viewport: { once: true, amount: 0.2 },
 };
 
 const cardItemVariants = {
   initial: { opacity: 0, y: 25, scale: 0.96 },
-  whileInView: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1, 
-    transition: { type: 'spring', stiffness: 220, damping: 18 } 
-  }
+  whileInView: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: 'spring', stiffness: 220, damping: 18 },
+  },
 };
 
 function Home() {
@@ -76,7 +76,7 @@ function Home() {
   const heroImages = [
     'https://res.cloudinary.com/du9sbnbx9/image/upload/v1789290289/hmik/cp/asset/hero/nnrzdmurx77pm2g7kkkj.webp',
     'https://res.cloudinary.com/du9sbnbx9/image/upload/v1789290355/hmik/cp/asset/hero/hero2.webp',
-    'https://res.cloudinary.com/du9sbnbx9/image/upload/v1789290306/hmik/cp/asset/hero/tgqreb3k9towejv2jjkd.webp'
+    'https://res.cloudinary.com/du9sbnbx9/image/upload/v1789290306/hmik/cp/asset/hero/tgqreb3k9towejv2jjkd.webp',
   ];
   const [heroIndex, setHeroIndex] = React.useState(0);
 
@@ -89,24 +89,29 @@ function Home() {
   }, [heroImages.length]);
 
   const { data: prokerData, isLoading: isLoadingProker } = useProgramKerja();
-  
+
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
     if (imagePath.startsWith('http')) return imagePath;
     return `https://res.cloudinary.com/du9sbnbx9/image/upload/${imagePath}`;
   };
 
-  const prokerMendatang = React.useMemo(() => {
-    if (!prokerData || !prokerData.data) return [];
-    // Just take the first 3 for "mendatang" as an example
-    return prokerData.data.slice(0, 3);
+  const prokerList = React.useMemo(() => {
+    if (!prokerData) return [];
+    if (Array.isArray(prokerData)) return prokerData;
+    if (Array.isArray(prokerData.data)) return prokerData.data;
+    return [];
   }, [prokerData]);
 
+  const prokerMendatang = React.useMemo(() => {
+    const filtered = prokerList.filter((p) => (p.status || '').toLowerCase() === 'mendatang');
+    return filtered.length > 0 ? filtered.slice(0, 3) : prokerList.slice(0, 3);
+  }, [prokerList]);
+
   const prokerUnggulan = React.useMemo(() => {
-    if (!prokerData || !prokerData.data) return [];
-    // Take the next 3 for "unggulan" as an example
-    return prokerData.data.slice(3, 6);
-  }, [prokerData]);
+    const filtered = prokerList.filter((p) => p.is_unggulan === true);
+    return filtered.length > 0 ? filtered.slice(0, 3) : prokerList.slice(3, 6);
+  }, [prokerList]);
 
   const isLoadingMendatang = isLoadingProker;
   const isLoadingUnggulan = isLoadingProker;
@@ -132,14 +137,17 @@ function Home() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="homepage-container"
       variants={pageVariants}
       initial="initial"
       animate="animate"
       exit="exit"
     >
-      <Navbar activeMenu="Beranda" onMenuClick={handleMenuClick} />
+      <Navbar
+        activeMenu="Beranda"
+        onMenuClick={handleMenuClick}
+      />
 
       {/* Hero Section dengan Background Carousel Smooth Fade & Dark Gradient Overlay */}
       <section className="hero-section">
@@ -154,17 +162,32 @@ function Home() {
             style={{ backgroundImage: `url(${heroImages[heroIndex]})` }}
           />
         </AnimatePresence>
-        <motion.div className="hero-content" variants={heroVariants}>
-          <Typography variant="heading1" color="white" weight="bold">
-            Himpunan Mahasiswa<br/>Ilmu Komputer<br/>Universitas Pertamina
+        <motion.div
+          className="hero-content"
+          variants={heroVariants}
+        >
+          <Typography
+            variant="heading1"
+            color="white"
+            weight="bold"
+          >
+            Himpunan Mahasiswa
+            <br />
+            Ilmu Komputer
+            <br />
+            Universitas Pertamina
           </Typography>
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.05, x: 4, y: -4 }}
             whileTap={{ scale: 0.95, y: 2 }}
             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
             style={{ width: 'fit-content' }}
           >
-            <Button variant="primary" className="hero-button" onClick={() => navigate('/tentang-kami')}>
+            <Button
+              variant="primary"
+              className="hero-button"
+              onClick={() => navigate('/tentang-kami')}
+            >
               Pelajari Lebih Lanjut <ArrowUpRightIcon />
             </Button>
           </motion.div>
@@ -172,12 +195,12 @@ function Home() {
       </section>
 
       {/* About Section */}
-      <motion.section 
+      <motion.section
         className="about-section"
         {...sectionRevealVariants}
       >
         <div className="about-grid">
-          <motion.div 
+          <motion.div
             className="about-left"
             whileHover={{ scale: 1.04, rotate: -2 }}
             transition={{ type: 'spring', stiffness: 300, damping: 15 }}
@@ -185,32 +208,51 @@ function Home() {
             <AboutGraphic />
           </motion.div>
           <div className="about-right">
-            <TextCard title="Tentang HMIK UPER" icon={<IdeaIcon />}>
-              "Himpunan Mahasiswa Ilmu Komputer Universitas Pertamina (HMIK UPER) adalah organisasi mahasiswa yang berdedikasi untuk mengembangkan potensi akademis, kepemimpinan, riset teknologi, dan hubungan kekeluargaan antar mahasiswa Ilmu Komputer Universitas Pertamina."
+            <TextCard
+              title="Tentang HMIK UPER"
+              icon={<IdeaIcon />}
+            >
+              "Himpunan Mahasiswa Ilmu Komputer Universitas Pertamina (HMIK UPER) adalah organisasi mahasiswa yang berdedikasi untuk mengembangkan potensi akademis, kepemimpinan, riset teknologi, dan hubungan kekeluargaan antar mahasiswa
+              Ilmu Komputer Universitas Pertamina."
             </TextCard>
           </div>
         </div>
       </motion.section>
 
       {/* Section: Program Kerja Mendatang */}
-      <motion.section 
+      <motion.section
         className="section-container bg-dark-blue"
         {...sectionRevealVariants}
       >
         <div className="section-header">
-          <Typography variant="heading2" color="white" weight="bold" className="title-with-icon">
+          <Typography
+            variant="heading2"
+            color="white"
+            weight="bold"
+            className="title-with-icon"
+          >
             Program Kerja Mendatang <WorkIcon />
           </Typography>
         </div>
-        
+
         {isLoadingMendatang ? (
-          <Typography variant="body" color="white">Memuat program kerja mendatang...</Typography>
+          <Typography
+            variant="body"
+            color="white"
+          >
+            Memuat program kerja mendatang...
+          </Typography>
         ) : prokerMendatang.length === 0 ? (
           <div className="empty-proker-box">
-            <Typography variant="body" color="white">Belum ada program kerja mendatang.</Typography>
+            <Typography
+              variant="body"
+              color="white"
+            >
+              Belum ada program kerja mendatang.
+            </Typography>
           </div>
         ) : (
-          <motion.div 
+          <motion.div
             className="card-grid"
             variants={containerStaggerVariants}
             initial="initial"
@@ -218,14 +260,14 @@ function Home() {
             viewport={{ once: true, amount: 0.2 }}
           >
             {prokerMendatang.map((item, idx) => (
-              <motion.div 
+              <motion.div
                 key={item.id_proker || idx}
                 variants={cardItemVariants}
                 whileHover={{ y: -8, scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 18 }}
               >
-                <NewsCard 
+                <NewsCard
                   title={item.nama_proker || 'Program Kerja'}
                   date={formatDate(item.dibuat_pada)}
                   image={getImageUrl(item.foto && item.foto.trim() !== '' ? item.foto : null) || vollyImg}
@@ -237,32 +279,50 @@ function Home() {
       </motion.section>
 
       {/* Section: Program Kerja Unggulan */}
-      <motion.section 
+      <motion.section
         className="section-container bg-light-gray"
         {...sectionRevealVariants}
       >
         <div className="section-header">
-          <Typography variant="heading2" color="black" weight="bold" className="title-with-icon">
+          <Typography
+            variant="heading2"
+            color="black"
+            weight="bold"
+            className="title-with-icon"
+          >
             Program Kerja Unggulan <TrophyIcon />
           </Typography>
         </div>
-        
+
         <div className="card-grid relative-grid">
-          <motion.div 
+          <motion.div
             className="star-decoration"
             animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <YellowStarIcon width={40} height={40} />
+            <YellowStarIcon
+              width={40}
+              height={40}
+            />
           </motion.div>
           {isLoadingUnggulan ? (
-            <Typography variant="body" color="black">Memuat program kerja unggulan...</Typography>
+            <Typography
+              variant="body"
+              color="black"
+            >
+              Memuat program kerja unggulan...
+            </Typography>
           ) : prokerUnggulan.length === 0 ? (
             <div className="empty-proker-box">
-              <Typography variant="body" color="black">Belum ada program kerja unggulan.</Typography>
+              <Typography
+                variant="body"
+                color="black"
+              >
+                Belum ada program kerja unggulan.
+              </Typography>
             </div>
           ) : (
-            <motion.div 
+            <motion.div
               className="card-grid"
               variants={containerStaggerVariants}
               initial="initial"
@@ -270,14 +330,14 @@ function Home() {
               viewport={{ once: true, amount: 0.2 }}
             >
               {prokerUnggulan.map((item, idx) => (
-                <motion.div 
+                <motion.div
                   key={item.id_proker || idx}
                   variants={cardItemVariants}
                   whileHover={{ y: -8, scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 18 }}
                 >
-                  <GalleryCard 
+                  <GalleryCard
                     variant="overlay"
                     title={item.nama_proker || 'Program Unggulan'}
                     image={getImageUrl(item.foto && item.foto.trim() !== '' ? item.foto : null) || vollyImg}
@@ -288,7 +348,7 @@ function Home() {
           )}
         </div>
       </motion.section>
-      
+
       <Footer />
     </motion.div>
   );

@@ -11,6 +11,11 @@ export { default as Typography } from './component/typography/Typography';
 export { default as OrgChartNode } from './component/card/OrgChartNode';
 export { default as PengurusCard } from './component/card/PengurusCard';
 export { default as CarouselCard } from './component/card/CarouselCard';
+export { default as ElectionHeader } from './component/header/ElectionHeader';
+export { default as LoginCard } from './component/card/LoginCard';
+export { default as InputField } from './component/input/InputField';
+export { default as CandidateCard } from './component/card/CandidateCard';
+export { default as InstructionBanner } from './component/banner/InstructionBanner';
 
 // Export Icons
 export { default as CrownIcon } from './component/icon/CrownIcon';
@@ -48,4 +53,18 @@ export { default as TapeCard } from './component/card/TapeCard';
 export { default as AboutusTitleIcon } from './component/icon/AboutusTitleIcon';
 export { default as ChevronLeftIcon } from './component/icon/ChevronLeftIcon';
 export { default as ChevronDownIcon } from './component/icon/ChevronDownIcon';
+export { default as VoteBoxIcon } from './component/icon/VoteBoxIcon';
+export { default as CheckSquareIcon } from './component/icon/CheckSquareIcon';
+export { default as CrownGoldIcon } from './component/icon/CrownGoldIcon';
+export { default as Eyeoff } from './component/icon/Eyeoff';
+export { default as AnggotaIcon } from './component/icon/AnggotaIcon';
+export { default as BoxTaskIcon } from './component/icon/BoxTaskIcon';
+export { default as CameraIcon } from './component/icon/CameraIcon';
+export { default as CancelIcon } from './component/icon/CancelIcon';
+export { default as DeleteIcon } from './component/icon/DeleteIcon';
+export { default as EmailWhiteIcon } from './component/icon/EmailWhiteIcon';
+export { default as HomeIcon } from './component/icon/HomeIcon';
+export { default as MedkreIcon } from './component/icon/MedkreIcon';
+export { default as ModulIcon } from './component/icon/ModulIcon';
+export { default as ResetIcon } from './component/icon/ResetIcon';
 
